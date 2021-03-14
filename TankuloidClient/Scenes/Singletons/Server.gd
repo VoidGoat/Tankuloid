@@ -1,9 +1,10 @@
 extends Node
 
 var network = NetworkedMultiplayerENet.new()
-#var ip = "127.0.0.1"
+var ip = "127.0.0.1"
 #var ip = "52.255.134.51"
-var ip = "192.168.3.185"
+#var ip = "40.122.44.165"
+#var ip = "192.168.3.185"
 var port = 1909
 var max_players = 100
 

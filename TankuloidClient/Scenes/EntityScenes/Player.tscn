@@ -1,23 +1,58 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scenes/EntityScenes/Player.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/EntityScenes/TankBottomPivot.gd" type="Script" id=2]
 
-[sub_resource type="CubeMesh" id=1]
+[sub_resource type="SphereMesh" id=5]
 
 [sub_resource type="CapsuleShape" id=2]
+height = 0.209573
+
+[sub_resource type="CubeMesh" id=3]
+
+[sub_resource type="CylinderMesh" id=4]
+
+[sub_resource type="CubeMesh" id=1]
 
 [node name="Player" type="KinematicBody"]
 script = ExtResource( 1 )
 
 [node name="Player" type="Spatial" parent="."]
 
-[node name="MeshInstance" type="MeshInstance" parent="."]
-mesh = SubResource( 1 )
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 15, 15 )
+
+[node name="LookAtIndicator" type="MeshInstance" parent="."]
+transform = Transform( 0.583765, 0, 0, 0, 0.583765, 0, 0, 0, 0.583765, 0, 0, 2.6615 )
+mesh = SubResource( 5 )
 material/0 = null
 
-[node name="Camera" type="Camera" parent="."]
-transform = Transform( 1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 10, 10 )
-
 [node name="PlayerCollisionShape" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.00158596, -0.055704, -0.000238538 )
 shape = SubResource( 2 )
+
+[node name="TankBottomPivot" type="Spatial" parent="."]
+script = ExtResource( 2 )
+
+[node name="BottomMesh" type="MeshInstance" parent="TankBottomPivot"]
+transform = Transform( 0.792744, 0, 0, 0, 0.333631, 0, 0, 0, 1.13513, 0.013106, -0.859306, 0.00587678 )
+mesh = SubResource( 3 )
+material/0 = null
+
+[node name="TankTopPivot" type="Spatial" parent="."]
+
+[node name="Muzzle" type="Spatial" parent="TankTopPivot"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.225838, 1.80014 )
+
+[node name="MeshInstance2" type="MeshInstance" parent="TankTopPivot"]
+transform = Transform( 0.2, 0, 0, 0, -2.62268e-08, -0.2, 0, 0.6, -8.74228e-09, 0, 0.21547, 1.10122 )
+mesh = SubResource( 4 )
+material/0 = null
+__meta__ = {
+"_editor_description_": "	"
+}
+
+[node name="Body" type="MeshInstance" parent="TankTopPivot"]
+transform = Transform( 0.583765, 0, 0, 0, 0.583765, 0, 0, 0, 0.583765, 0, 0, 0 )
+mesh = SubResource( 1 )
+material/0 = null

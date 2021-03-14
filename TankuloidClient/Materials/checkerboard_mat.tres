@@ -3,6 +3,8 @@
 [sub_resource type="Shader" id=1]
 code = "shader_type spatial;
 
+uniform vec4 dark_color : hint_color;
+uniform vec4 light_color : hint_color;
 
 varying vec3 pos;
 void vertex() {
@@ -10,8 +12,12 @@ void vertex() {
 }
 
 void fragment() {
-	ALBEDO = pos;
+	float size =  2.0;
+	float checkers = mod(floor(pos.x/size) + floor(pos.z/size), 2.0);
+	ALBEDO = mix(light_color, dark_color, checkers).xyz;
 }"
 
 [resource]
 shader = SubResource( 1 )
+shader_param/dark_color = Color( 0, 0.423529, 0.701961, 1 )
+shader_param/light_color = Color( 0.141176, 0.321569, 0.443137, 1 )

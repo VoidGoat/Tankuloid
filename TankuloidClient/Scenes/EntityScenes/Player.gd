@@ -1,24 +1,42 @@
 extends KinematicBody
 
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
 var speed = 10.0
 var player_state
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
+var bullet_spawn = preload("res://Scenes/EntityScenes/Bullet.tscn")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if (Input.is_action_just_pressed("submit")):
 		print("attempting to submit")
 		Server.FetchData("I am player")
-		
+	UpdateLookPosition()
+	
+	if (Input.is_action_just_pressed("fire_primary")):
+		var new_bullet = bullet_spawn.instance()
+		new_bullet.transform.origin = $TankTopPivot/Muzzle.global_transform.origin
+		new_bullet.transform.basis = $TankTopPivot.transform.basis
+		new_bullet.transform.basis.z *= -1
+		new_bullet.name = "bullet" 
+		get_node("/root/MainScene").add_child(new_bullet)
+	
+	
+
+func UpdateLookPosition():
+	var cursor_direction =  $Camera.project_ray_normal(get_viewport().get_mouse_position())
+	cursor_direction = cursor_direction.normalized()
+	var direction_scale = (global_transform.origin.y - $Camera.global_transform.origin.y) / cursor_direction.y
+	var look_position = $Camera.global_transform.origin + (cursor_direction * direction_scale)
+	$LookAtIndicator.global_transform.origin = look_position
+#	print("Mouse ", get_viewport().get_mouse_position())
+#	print("cursor_direction ", cursor_direction)
+	
+	var new_basis = Basis()
+	new_basis.z = (look_position - global_transform.origin).normalized()
+	new_basis.y = Vector3(0,1,0)
+	new_basis.x = new_basis.z.cross(new_basis.y)
+	$TankTopPivot.global_transform.basis = new_basis
 
 func _physics_process(delta):
 	ProcessMovement(delta)
