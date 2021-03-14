@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scenes/EntityScenes/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Materials/checkerboard_mat.tres" type="Material" id=2]
+[ext_resource path="res://Scenes/MainScenes/PingLabel.gd" type="Script" id=3]
 
 [sub_resource type="PlaneMesh" id=1]
 
@@ -21,3 +22,18 @@ mesh = SubResource( 1 )
 material/0 = ExtResource( 2 )
 
 [node name="OtherPlayers" type="Spatial" parent="."]
+
+[node name="Control" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PingLabel" type="Label" parent="Control"]
+margin_left = 19.7556
+margin_top = 20.2896
+margin_right = 102.756
+margin_bottom = 51.2896
+text = "89"
+script = ExtResource( 3 )
