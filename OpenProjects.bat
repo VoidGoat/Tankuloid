@@ -1,0 +1,2 @@
+start TankuloidServer/project.godot
+start TankuloidClient/project.godot
