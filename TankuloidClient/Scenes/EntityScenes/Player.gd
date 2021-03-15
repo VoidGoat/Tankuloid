@@ -58,7 +58,9 @@ func ProcessMovement(delta):
 	move_and_collide(movement_dir * speed * delta)
 
 func UpdatePlayerState():
-	player_state = {"T": OS.get_system_time_msecs(), "P": global_transform.origin}
+	var look_rotation = atan2($TankTopPivot.global_transform.basis.z.x, $TankTopPivot.global_transform.basis.z.z)
+#	print(look_rotation)
+	player_state = {"T": OS.get_system_time_msecs(), "P": global_transform.origin, "R": look_rotation}
 	Server.SendPlayerState(player_state)
 	
 	

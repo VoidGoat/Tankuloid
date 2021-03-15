@@ -1,5 +1,6 @@
 extends Spatial
 
+var interp_speed = 5
 
 var previous_position = Vector3(0,0,0)
 var current_direction = Vector3(0,0,1)
@@ -19,7 +20,7 @@ func _process(delta):
 		else:
 			movement_direction = new_movement_direction
 	
-	current_direction = interp_to_vec3(current_direction, movement_direction, delta, 3)
+	current_direction = interp_to_vec3(current_direction, movement_direction, delta, interp_speed)
 	
 	var new_basis = Basis()
 	new_basis.z = current_direction

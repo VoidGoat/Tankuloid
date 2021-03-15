@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Scenes/EntityScenes/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Materials/checkerboard_mat.tres" type="Material" id=2]
@@ -13,6 +13,10 @@ background_mode = 2
 background_sky = SubResource( 2 )
 background_energy = 0.5
 
+[sub_resource type="CubeMesh" id=4]
+
+[sub_resource type="BoxShape" id=5]
+
 [node name="MainScene" type="Spatial"]
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
@@ -20,7 +24,7 @@ transform = Transform( 0.373533, -0.553102, 0.744682, -0.42931, 0.608561, 0.6673
 shadow_enabled = true
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4114, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7.64669, -0.0224651, 5.665 )
 
 [node name="GroundPlane" type="MeshInstance" parent="."]
 transform = Transform( 307.243, 0, 0, 0, 307.243, 0, 0, 0, 307.243, 0, 0, 0 )
@@ -49,3 +53,13 @@ __meta__ = {
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 3 )
+
+[node name="ObstacleMesh" type="MeshInstance" parent="."]
+transform = Transform( 19.7919, 0, 0, 0, 1, 0, 0, 0, 1, -12.2733, 1.05715, -22.1412 )
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="Obstacle2" type="StaticBody" parent="ObstacleMesh"]
+
+[node name="CollisionShape" type="CollisionShape" parent="ObstacleMesh/Obstacle2"]
+shape = SubResource( 5 )

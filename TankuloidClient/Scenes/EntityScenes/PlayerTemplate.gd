@@ -16,4 +16,10 @@ func _process(delta):
 		
 func MovePlayer(position):
 	global_transform.origin = position
-	
+
+func RotateTurret(look_direction):
+	var new_basis = Basis()
+	new_basis.z = look_direction
+	new_basis.y = Vector3(0,1,0)
+	new_basis.x = new_basis.z.cross(new_basis.y)
+	$TankTopPivot.global_transform.basis = new_basis.orthonormalized()

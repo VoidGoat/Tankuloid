@@ -6,7 +6,8 @@ extends Node
 #
 # T = time
 # P = position
-# 
+# R = rotation
+
 var last_world_state_time = 0
 
 # store previous world states
@@ -27,6 +28,8 @@ func _physics_process(delta):
 	if world_state_buffer.size() > 1:
 		while world_state_buffer.size() > 2 and render_time > world_state_buffer[2].T:
 			world_state_buffer.remove(0)
+		
+		# Interpolate to the future state
 		if world_state_buffer.size() > 2: # we have a future state so we should interpolate
 			var interpolation_factor = float(render_time - world_state_buffer[1]["T"]) / float(world_state_buffer[2]["T"] - world_state_buffer[1]["T"])
 			for player in world_state_buffer[2]["PS"].keys():
@@ -39,10 +42,20 @@ func _physics_process(delta):
 				if get_node("/root/MainScene/OtherPlayers").has_node(str(player)):
 					var new_position = lerp(world_state_buffer[1]["PS"][player]["P"], world_state_buffer[2]["PS"][player]["P"], interpolation_factor)
 					get_node("/root/MainScene/OtherPlayers/" + str(player)).MovePlayer(new_position)
+					
+#					print("world_state ",world_state_buffer[1])
+					
+					var old_direction = Vector3(sin(world_state_buffer[1]["PS"][player]["R"]), 0, cos(world_state_buffer[1]["PS"][player]["R"]))
+					var future_direction = Vector3(sin(world_state_buffer[2]["PS"][player]["R"]), 0, cos(world_state_buffer[2]["PS"][player]["R"]))
+					var interp_direction = lerp(old_direction, future_direction, interpolation_factor)
+					get_node("/root/MainScene/OtherPlayers/" + str(player)).RotateTurret(interp_direction)
+					
 				else:
 					print("spawning player")
 					Server.SpawnNewPlayer(player, world_state_buffer[2]["PS"][player]["P"])
-		elif render_time > world_state_buffer[1].T: # we do not have a future state so we should extrapolate if 
+		
+		# Extrapolate since we do not have a future state to interpolate to
+		elif render_time > world_state_buffer[1].T: 
 			var extrapolation_factor = float(render_time - world_state_buffer[0]["T"]) / float(world_state_buffer[1]["T"] - world_state_buffer[0]["T"]) - 1.0
 			for player in world_state_buffer[1]["PS"].keys():
 				if str(player) == "T":
@@ -59,15 +72,3 @@ func _physics_process(delta):
 					print("spawning player")
 					Server.SpawnNewPlayer(player, world_state_buffer[1]["PS"][player]["P"])
 			
-#
-#func UpdateWorldState(world_state):
-#	if world_state["T"] > last_world_state_time:
-#		last_world_state_time = world_state["T"]
-#		world_state.erase("T")
-#		world_state.erase(get_tree().get_network_unique_id()) # remove current player from state
-#		for player in world_state.keys():
-#			if get_tree().root.get_node("MainScene/OtherPlayers").has_node(str(player)):
-#				get_tree().root.get_node("MainScene/OtherPlayers/" + str(player)).MovePlayer(world_state[player]["P"])
-#			else:
-#				print("spawning new player")
-#				Server.SpawnNewPlayer(player, world_state[player]["P"])

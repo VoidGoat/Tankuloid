@@ -46,6 +46,8 @@ func _OnConnectionSucceeded():
 	print("Successfully connected!")
 	rpc_id(1, "FetchServerTime", OS.get_system_time_msecs())
 	
+	FetchMapLayout()
+	
 	# calculate latency adjustment
 	var timer = Timer.new()
 	timer.wait_time = 0.5
@@ -88,6 +90,10 @@ remote func ReceiveWorldState(world_state):
 	# Update world state
 	WorldState.UpdateWorldState(world_state)
 	
+
+func FetchMapLayout():
+	$Map.FetchMapLayout()
+
 	
 remote func ReturnServerTime(server_time, client_time):
 	latency = (OS.get_system_time_msecs() - client_time) / 2

@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=2]
+
+[sub_resource type="PlaneMesh" id=1]
+
+[sub_resource type="CubeMesh" id=2]
+size = Vector3( 2, 4, 2 )
+
+[sub_resource type="BoxShape" id=3]
+extents = Vector3( 1, 2, 1 )
+
+[node name="MeshLibrary" type="Spatial"]
+
+[node name="Plane" type="MeshInstance" parent="."]
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="Cube" type="MeshInstance" parent="."]
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="StaticBody" type="StaticBody" parent="Cube"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Cube/StaticBody"]
+shape = SubResource( 3 )

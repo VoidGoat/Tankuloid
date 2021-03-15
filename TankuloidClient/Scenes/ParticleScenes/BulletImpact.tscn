@@ -1,0 +1,46 @@
+[gd_scene load_steps=8 format=2]
+
+[sub_resource type="Gradient" id=6]
+offsets = PoolRealArray( 0.079096, 0.240113, 0.717514 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 0.556641, 0, 1, 0, 0, 0, 1 )
+
+[sub_resource type="GradientTexture" id=7]
+gradient = SubResource( 6 )
+
+[sub_resource type="Curve" id=1]
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.247462, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=2]
+curve = SubResource( 1 )
+
+[sub_resource type="ParticlesMaterial" id=3]
+direction = Vector3( 0, 1, 0 )
+spread = 90.0
+gravity = Vector3( 0, -0.5, 0 )
+initial_velocity = 2.0
+damping = 1.0
+scale = 0.1
+scale_random = 0.34
+scale_curve = SubResource( 2 )
+color_ramp = SubResource( 7 )
+hue_variation = 0.1
+hue_variation_random = 0.79
+
+[sub_resource type="SpatialMaterial" id=5]
+flags_unshaded = true
+vertex_color_use_as_albedo = true
+params_billboard_keep_scale = true
+
+[sub_resource type="SphereMesh" id=4]
+material = SubResource( 5 )
+radial_segments = 16
+rings = 8
+
+[node name="BulletImpact" type="Spatial"]
+
+[node name="Particles" type="Particles" parent="."]
+amount = 20
+lifetime = 1.5
+explosiveness = 1.0
+process_material = SubResource( 3 )
+draw_pass_1 = SubResource( 4 )

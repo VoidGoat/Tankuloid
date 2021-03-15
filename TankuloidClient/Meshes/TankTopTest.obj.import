@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/TankTopTest.obj-c03d83ba600f5d1801de36ab7f371365.mesh"
+
+[deps]
+
+files=[ "res://.import/TankTopTest.obj-c03d83ba600f5d1801de36ab7f371365.mesh" ]
+
+source_file="res://Meshes/TankTopTest.obj"
+dest_files=[ "res://.import/TankTopTest.obj-c03d83ba600f5d1801de36ab7f371365.mesh", "res://.import/TankTopTest.obj-c03d83ba600f5d1801de36ab7f371365.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true
