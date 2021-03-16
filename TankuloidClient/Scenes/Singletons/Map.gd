@@ -11,7 +11,7 @@ func FetchMapLayout():
 remote func ReceiveMapLayout(layout):
 	print("layout ", layout)
 	new_map = map_generator.instance()
-	new_map.global_transform.origin = Vector3(0,-0.9,0)
+	new_map.global_transform.origin = Vector3(0,-0.95,0)
 	new_map.name = "New Map"
 	get_node("/root").add_child(new_map)
 	
