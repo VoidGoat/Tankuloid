@@ -14,12 +14,16 @@ func _process(delta):
 	UpdateLookPosition()
 	
 	if (Input.is_action_just_pressed("fire_primary")):
-		var new_bullet = bullet_spawn.instance()
-		new_bullet.transform.origin = $TankTopPivot/Muzzle.global_transform.origin
-		new_bullet.transform.basis = $TankTopPivot.transform.basis
-		new_bullet.transform.basis.z *= -1
-		new_bullet.name = "bullet" 
-		get_node("/root/MainScene").add_child(new_bullet)
+#		var new_bullet = bullet_spawn.instance()
+#		new_bullet.transform.origin = $TankTopPivot/Muzzle.global_transform.origin
+#		new_bullet.transform.basis = $TankTopPivot.transform.basis
+#		new_bullet.transform.basis.z *= -1
+#		new_bullet.name = "bullet" 
+#		get_node("/root/MainScene").add_child(new_bullet)
+		var direction = -$TankTopPivot.transform.basis.z
+		var position = $TankTopPivot/Muzzle.global_transform.origin
+		# send bullet to server
+		Server.SpawnBullet(position, direction)
 	
 	
 

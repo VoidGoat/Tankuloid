@@ -19,10 +19,6 @@ config/name="TankuloidServer"
 run/main_scene="res://Scenes/Main/Server.tscn"
 config/icon="res://icon.png"
 
-[physics]
-
-common/physics_fps=20
-
 [rendering]
 
 quality/driver/driver_name="GLES2"

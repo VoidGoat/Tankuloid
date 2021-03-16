@@ -94,6 +94,20 @@ remote func ReceiveWorldState(world_state):
 func FetchMapLayout():
 	$Map.FetchMapLayout()
 
+func SpawnBullet(position, direction):
+	rpc_id(1, "SpawnBullet", position, direction, client_clock)
+
+var bullet_spawn = preload("res://Scenes/EntityScenes/Bullet.tscn")
+remote func SpawnClientBullet(position, direction, speed, launch_time):
+	var new_bullet = bullet_spawn.instance()
+	# calculate adjusted position
+	new_bullet.transform.origin = position - (direction * (speed * (client_clock - launch_time)/1000.0))
+	print(client_clock - launch_time)
+	new_bullet.transform.basis.z = direction
+	new_bullet.transform.basis.y = Vector3(0,1,0)
+	new_bullet.transform.basis.x = direction.cross(Vector3(0,1,0))
+	new_bullet.name = "bullet" 
+	get_node("/root/MainScene").add_child(new_bullet)
 	
 remote func ReturnServerTime(server_time, client_time):
 	latency = (OS.get_system_time_msecs() - client_time) / 2
