@@ -5,7 +5,7 @@
 [ext_resource path="res://Meshes/Bullet.obj" type="ArrayMesh" id=3]
 
 [sub_resource type="SphereShape" id=1]
-radius = 0.4
+radius = 0.2
 
 [sub_resource type="SpatialMaterial" id=2]
 albedo_color = Color( 0.913725, 0.627451, 0.219608, 1 )

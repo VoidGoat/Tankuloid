@@ -22,7 +22,7 @@ transform = Transform( 0.373533, -0.553102, 0.744682, -0.42931, 0.608561, 0.6673
 shadow_enabled = true
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7.64669, -0.0224651, 5.665 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4.35141, -0.0224651, -2.65441 )
 
 [node name="GroundPlane" type="MeshInstance" parent="."]
 transform = Transform( 34, 0, 0, 0, 1, 0, 0, 0, 22, 34, 0, 22 )

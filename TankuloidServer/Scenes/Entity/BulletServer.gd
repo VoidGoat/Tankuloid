@@ -1,6 +1,6 @@
 extends KinematicBody
 
-var speed = 18
+var speed = 14
 var bounces = 0
 var lifetime = 15
 

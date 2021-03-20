@@ -1,7 +1,7 @@
 extends KinematicBody
 
 
-var speed = 10.0
+var speed = 9.0
 var respawn_time = 3
 var player_state
 
