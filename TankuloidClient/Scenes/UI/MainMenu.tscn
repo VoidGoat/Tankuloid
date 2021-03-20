@@ -1,0 +1,78 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Fonts/Blackout-Midnight.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://Scenes/UI/MainMenu.gd" type="Script" id=2]
+
+[sub_resource type="DynamicFont" id=1]
+size = 100
+use_filter = true
+font_data = ExtResource( 1 )
+
+[node name="MainMenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="Center" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Container" type="VBoxContainer" parent="Center"]
+margin_left = 262.0
+margin_top = 150.0
+margin_right = 762.0
+margin_bottom = 450.0
+rect_min_size = Vector2( 500, 300 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Center/Container"]
+margin_right = 500.0
+margin_bottom = 90.0
+custom_fonts/font = SubResource( 1 )
+text = "TANKULOID"
+align = 1
+valign = 1
+
+[node name="ServerLabel" type="Label" parent="Center/Container"]
+margin_top = 94.0
+margin_right = 500.0
+margin_bottom = 108.0
+text = "Server IP:"
+
+[node name="ServerLineEdit" type="LineEdit" parent="Center/Container"]
+margin_top = 112.0
+margin_right = 500.0
+margin_bottom = 136.0
+text = "40.122.44.165"
+
+[node name="NicknameLabel" type="Label" parent="Center/Container"]
+margin_top = 140.0
+margin_right = 500.0
+margin_bottom = 154.0
+text = "Nickname:"
+
+[node name="NicknameLineEdit" type="LineEdit" parent="Center/Container"]
+margin_top = 158.0
+margin_right = 500.0
+margin_bottom = 182.0
+text = "Name"
+
+[node name="JoinGameButton" type="Button" parent="Center/Container"]
+margin_top = 186.0
+margin_right = 500.0
+margin_bottom = 206.0
+text = "Join Game"
+[connection signal="button_up" from="Center/Container/JoinGameButton" to="." method="_on_JoinGameButton_button_up"]

@@ -20,6 +20,7 @@ func _physics_process(delta):
 			
 			# Update server player positions
 			for player_id in get_parent().player_dict.keys():
-				get_parent().player_dict[player_id].transform.origin = world_state["PS"][int(player_id)]["P"]
+				if world_state["PS"].has(int(player_id)):
+					get_parent().player_dict[player_id].transform.origin = world_state["PS"][int(player_id)]["P"]
 
 

@@ -18,8 +18,8 @@ func _ready():
 		if cell.z > max_z:
 			max_z = int(cell.z)
 	
-	var height = abs(max_z - min_z)
-	var width = abs(max_x - min_x)
+	var height = abs(max_z - min_z) + 1
+	var width = abs(max_x - min_x) + 1
 	
 	
 	var data = ""
@@ -40,10 +40,3 @@ func save(path, content):
 	file.open(path, File.WRITE)
 	file.store_string(content)
 	file.close()
-
-func load():
-	var file = File.new()
-	file.open("user://save_game.dat", File.READ)
-	var content = file.get_as_text()
-	file.close()
-	return content

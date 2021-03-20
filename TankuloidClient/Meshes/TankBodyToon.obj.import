@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/TankBodyToon.obj-70606ed24d7098f1f06249c0c1bf1929.mesh"
+
+[deps]
+
+files=[ "res://.import/TankBodyToon.obj-70606ed24d7098f1f06249c0c1bf1929.mesh" ]
+
+source_file="res://Meshes/TankBodyToon.obj"
+dest_files=[ "res://.import/TankBodyToon.obj-70606ed24d7098f1f06249c0c1bf1929.mesh", "res://.import/TankBodyToon.obj-70606ed24d7098f1f06249c0c1bf1929.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true

@@ -8,6 +8,12 @@ var player_state_collection = {}
 # store reference to player nodes on server
 var player_dict = {}
 
+# Keep track of player info like health and kills
+# {"104879234": {H": 100, "K": 3}}
+var player_data = {}
+
+var next_bullet_id = 1000
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	StartServer()
@@ -24,13 +30,29 @@ func StartServer():
 var player_spawn = preload("res://Scenes/Entity/PlayerServer.tscn")
 func _Peer_Connected(player_id):
 	print("User " + str(player_id) + " Connected!")
-	rpc_id(0, "SpawnNewPlayer", player_id, Vector3(5, 1, -5))
+	
+	
+	
+	# Choose spawn_point
+	var spawn_position = Vector3(5, 1, -5)
+#	print($Map.available_spawn_points.size())
+#	if $Map.available_spawn_points.size() > 0:
+#		print("selecting spawn")
+#		spawn_position = $Map.available_spawn_points[0]
+#		$Map.occupied_spawn_points.append(spawn_position)
+#		$Map.available_spawn_points.remove(0)
+	spawn_position = $Map.CalculateBestSpawnPoint()
+	
+	
+	rpc_id(0, "SpawnNewPlayer", player_id, spawn_position)
 	# Spawn server player for collisions
 	var new_player = player_spawn.instance()
-	new_player.transform.origin = Vector3(10,5,10)
+	new_player.transform.origin = spawn_position
 	new_player.name = str(player_id)
 	$Players.add_child(new_player)
 	player_dict[player_id] = (new_player)
+	
+
 	
 	
 
@@ -42,26 +64,46 @@ func _Peer_Disconnected(player_id):
 	
 	player_dict[player_id].queue_free()
 	player_dict.erase(player_id)
+	
+	player_data.erase(player_id)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+remote func ReceiveNickname(nickname):
+	# add player entry
+	var player_id = get_tree().get_rpc_sender_id()
+	player_data[player_id] = {"N": nickname, "K": 0, "D": 0}
+	rpc_id(0, "UpdatePlayerData", player_data)
 
+remote func ReceiveRespawnRequest():
+	var player_id = get_tree().get_rpc_sender_id()
+	var spawn_position = $Map.CalculateBestSpawnPoint()
+	
+	# Reenable collisions and such
+	get_node("Players/" + str(player_id)).Respawn()
+	rpc_id(0, "RespawnPlayer", player_id, spawn_position)
+	
 var bullet_spawn = preload("res://Scenes/Entity/BulletServer.tscn")
-remote func SpawnBullet(position, direction, client_time):
+remote func SpawnBullet(position, direction, owner_id, client_time):
+	var id = next_bullet_id
+	
 	var new_bullet = bullet_spawn.instance()
 	new_bullet.transform.origin = position
 	new_bullet.transform.basis = Basis()
 	new_bullet.transform.basis.z = direction
 	new_bullet.transform.basis.y = Vector3(0,1,0)
 	new_bullet.transform.basis.x = direction.cross(Vector3(0,1,0))
-	new_bullet.name = "bullet" 
+	new_bullet.name = "bullet_" + str(id)
+	new_bullet.owner_id = owner_id
 	get_node("Bullets").add_child(new_bullet)
+	
+	next_bullet_id += 1
 	
 	# measured in distance per second
 	var bullet_speed = 10
 	# spawn fake bullet on clients
-	rpc_id(0, "SpawnClientBullet", position, direction, bullet_speed, client_time)
+	rpc_id(0, "SpawnClientBullet", position, direction, bullet_speed, client_time, id)
+
+func DestroyBullet(bullet_name):
+	rpc_id(0, "DestroyClientBullet", bullet_name)
 
 remote func FetchData(test_string):
 	var player_id = get_tree().get_rpc_sender_id()
@@ -87,4 +129,17 @@ remote func FetchServerTime(client_time):
 remote func DetermineLatency(client_time):
 	var player_id = get_tree().get_rpc_sender_id()
 	rpc_id(player_id, "ReturnLatency", client_time)
+
+# player id is who is dying and killer_id is who launched the bulllet
+func KillPlayer(player_id, killer_id):
+	# Only get kill if you killed some one other than yourself
+	if int(killer_id) != int(player_id):
+		player_data[int(killer_id)]["K"] += 1
+	player_data[int(player_id)]["D"] += 1
 	
+	get_node("Players/" + str(player_id)).Die()
+	
+	rpc_id(0, "UpdatePlayerData", player_data)
+	
+	rpc_id(0, "KillPlayer", player_id)
+

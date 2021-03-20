@@ -5,6 +5,12 @@ extends Node
 #	 "height" : 5,
 #	 "data" : "0000000000000000000000000"}
 var layout_path = "res://saved_maps/map1.json"
+
+var spawn_points = []
+var occupied_spawn_points = []
+
+const TILE_SIZE = 4
+
 func _ready():
 	BuildMap(LoadLayout(layout_path))
 
@@ -30,6 +36,27 @@ func LoadLayout(path):
 	
 	return layout
 
+func CalculateBestSpawnPoint():
+	if spawn_points.size() <= 0:
+		print("ERROR: No available spawn points!")
+		return Vector3(0,0,0)
+	
+	var max_important_dist = 50
+	
+	var best_point = spawn_points[0]
+	var lowest_cost = 1000000
+	for point in spawn_points:
+		var cost = 0
+		for player in get_parent().player_dict.values():
+			var dist = player.transform.origin.distance_to(point)
+			dist = clamp(dist, 0, max_important_dist)
+			cost += pow(max_important_dist - dist, 2)
+			
+		if cost < lowest_cost:
+			lowest_cost = cost
+			best_point = point
+	return best_point
+
 func BuildMap(layout):
 	# create new map generator
 	var new_map = map_generator.instance()
@@ -50,6 +77,9 @@ func BuildMap(layout):
 		var x = i % width
 		var z = i / width
 		new_map.get_node("GridMap").set_cell_item(x, 0, z, int(data[i]))
+		
+		if int(data[i]) == 2:
+			spawn_points.append(Vector3(x + 0.5, 0, z + 0.5) * TILE_SIZE )
 		
 		# add top wall 
 		if z == 0:

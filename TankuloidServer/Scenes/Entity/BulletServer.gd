@@ -1,11 +1,12 @@
 extends KinematicBody
 
-var speed = 20
+var speed = 18
 var bounces = 0
-var lifetime = 10
+var lifetime = 15
+
+var owner_id
 
 func _ready():
-	
 	var self_destruct_timer = Timer.new()
 	self_destruct_timer.wait_time = lifetime
 	self_destruct_timer.autostart = true
@@ -19,6 +20,8 @@ func _physics_process(delta):
 	var collision = move_and_collide(movement_vec)
 	if (collision):
 		if collision.collider.is_in_group("players"):
+			get_node("/root/Server").KillPlayer(collision.collider.name, owner_id)
+			get_node("/root/Server").DestroyBullet(self.name)
 			queue_free()
 		if collision.collider.is_in_group("bullets"):
 			queue_free()

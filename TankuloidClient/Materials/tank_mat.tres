@@ -1,0 +1,32 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=2]
+
+[ext_resource path="res://Materials/Textures/texture.png" type="Texture" id=1]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type spatial;
+
+uniform vec4 color1 : hint_color;
+uniform vec4 color2 : hint_color;
+uniform vec4 color3 : hint_color;
+uniform vec4 color4 : hint_color;
+
+uniform sampler2D color_map;
+
+varying vec3 pos;
+void vertex() {
+	pos = (WORLD_MATRIX * vec4(VERTEX, 1.0)).xyz;
+}
+
+void fragment() {
+	vec3 map = texture(color_map, UV).xyz;
+	ALBEDO = mix(color4, mix(color3, mix(color1, color2, map.r), map.b), map.g).xyz;
+}
+"
+
+[resource]
+shader = SubResource( 1 )
+shader_param/color1 = Color( 0, 0, 0, 1 )
+shader_param/color2 = Color( 0.0705882, 0.188235, 0.129412, 1 )
+shader_param/color3 = Color( 0.196078, 0.505882, 0.34902, 1 )
+shader_param/color4 = Color( 0.141176, 0.360784, 0.25098, 1 )
+shader_param/color_map = ExtResource( 1 )

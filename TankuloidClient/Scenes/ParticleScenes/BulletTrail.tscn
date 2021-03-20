@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=2]
+
+[sub_resource type="Curve" id=1]
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.0412996, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=2]
+curve = SubResource( 1 )
+
+[sub_resource type="ParticlesMaterial" id=3]
+direction = Vector3( 0, 0, 1 )
+spread = 15.0
+gravity = Vector3( 0, -0.5, 0 )
+initial_velocity = 2.0
+initial_velocity_random = 0.3
+damping = 1.0
+scale = 0.2
+scale_random = 0.04
+scale_curve = SubResource( 2 )
+color = Color( 0.545098, 0.545098, 0.545098, 1 )
+
+[sub_resource type="SpatialMaterial" id=4]
+flags_unshaded = true
+vertex_color_use_as_albedo = true
+params_billboard_keep_scale = true
+
+[sub_resource type="SphereMesh" id=5]
+material = SubResource( 4 )
+radial_segments = 16
+rings = 8
+
+[node name="BulletImpact" type="Spatial"]
+
+[node name="Particles" type="Particles" parent="."]
+cast_shadow = 0
+amount = 100
+lifetime = 0.5
+local_coords = false
+process_material = SubResource( 3 )
+draw_pass_1 = SubResource( 5 )

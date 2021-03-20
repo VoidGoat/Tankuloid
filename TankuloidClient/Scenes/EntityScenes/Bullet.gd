@@ -1,8 +1,11 @@
 extends KinematicBody
 
-var speed = 20
+var speed = 18
 var bounces = 0
-var lifetime = 10
+var lifetime = 15
+
+# particles to spawn
+var bounce_effect_spawn = preload("res://Scenes/ParticleScenes/BulletBounce.tscn")
 
 func _ready():
 	
@@ -19,16 +22,23 @@ func _physics_process(delta):
 	var collision = move_and_collide(movement_vec)
 	if (collision):
 		if collision.collider.is_in_group("players"):
-			queue_free()
+#			queue_free()
+			return
 		if collision.collider.is_in_group("bullets"):
 			queue_free()
 		if bounces >= 1:
 			queue_free()
+		
 		global_transform.basis = global_transform.basis.orthonormalized()
 		global_transform.basis.z = -global_transform.basis.z.reflect(collision.normal).normalized()
 		global_transform.basis.y = Vector3(0,1,0)
 		global_transform.basis.x = global_transform.basis.z.cross(global_transform.basis.y)
 		bounces += 1
+		
+		# spawn bounce effect
+		var bounce = bounce_effect_spawn.instance()
+		bounce.transform.origin = transform.origin
+		get_node("/root/MainScene").add_child(bounce)
 
 func SelfDestruct():
 	queue_free()

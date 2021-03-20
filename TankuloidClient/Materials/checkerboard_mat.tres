@@ -15,6 +15,10 @@ void fragment() {
 	float size =  2.0;
 	float checkers = mod(floor(pos.x/size) + floor(pos.z/size), 2.0);
 	ALBEDO = mix(light_color, dark_color, checkers).xyz;
+}
+
+void light() {
+	DIFFUSE_LIGHT += ALBEDO * round(ATTENUATION -0.2);
 }"
 
 [resource]
