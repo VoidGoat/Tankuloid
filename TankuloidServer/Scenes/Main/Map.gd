@@ -4,7 +4,8 @@ extends Node
 #	"width" : 5,
 #	 "height" : 5,
 #	 "data" : "0000000000000000000000000"}
-var layout_path = "res://saved_maps/map1.json"
+var default_layout_path = "saved_maps/map1.json"
+var layout_path = default_layout_path
 
 var spawn_points = []
 var occupied_spawn_points = []
@@ -12,7 +13,19 @@ var occupied_spawn_points = []
 const TILE_SIZE = 4
 
 func _ready():
-	BuildMap(LoadLayout(layout_path))
+	var arguments = {}
+	print("command line args ", OS.get_cmdline_args())
+	for arg in OS.get_cmdline_args():
+		if arg.find("=") > -1:
+			var key_value = arg.split("=")
+			arguments[key_value[0]] = key_value[1]
+	layout_path = default_layout_path
+	if arguments.has("map"):
+		layout_path = arguments["map"]
+		
+	print(layout_path)
+	var layout = LoadLayout(layout_path)
+	BuildMap(layout)
 
 var map_generator = preload("res://Scenes/Main/MapGenerator.tscn")
 
@@ -58,6 +71,9 @@ func CalculateBestSpawnPoint():
 	return best_point
 
 func BuildMap(layout):
+	
+
+	
 	# create new map generator
 	var new_map = map_generator.instance()
 	new_map.transform.origin = Vector3(0,-0.9,0)
