@@ -16,6 +16,8 @@ var next_bullet_id = 1000
 
 var color_list = [Color(0, 1, 0), Color(0, 0, 1), Color(1, 0, 0), Color(1, 1, 0),  Color(1, 0, 1), Color(0, 1, 1)]
 
+var color_counter = 0
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 
@@ -73,8 +75,11 @@ func _Peer_Disconnected(player_id):
 remote func ReceiveNickname(nickname):
 	# add player entry
 	var player_id = get_tree().get_rpc_sender_id()
-	var new_color =  color_list[player_data.keys().size() % color_list.size()]
-	print("New color is", new_color, " --- ", player_data.keys().size())
+	var new_color =  color_list[color_counter % color_list.size()].darkened(0.35)
+#	color_list[0].darkened()
+	color_counter += 1
+
+#	print("New color is", new_color, " --- ", player_data.keys().size())
 	player_data[player_id] = {"N": nickname, "K": 0, "D": 0, "C": new_color}
 
 	rpc_id(0, "UpdatePlayerData", player_data)
@@ -106,7 +111,8 @@ remote func SpawnBullet(position, direction, owner_id, client_time):
 	# measured in distance per second
 	var bullet_speed = 10
 	# spawn fake bullet on clients
-	rpc_id(0, "SpawnClientBullet", position, direction, bullet_speed, client_time, id)
+	# Send current server time so clients can compensate
+	rpc_id(0, "SpawnClientBullet", position, direction, bullet_speed, OS.get_system_time_msecs(), id)
 
 func DestroyBullet(bullet_name):
 	rpc_id(0, "DestroyClientBullet", bullet_name)

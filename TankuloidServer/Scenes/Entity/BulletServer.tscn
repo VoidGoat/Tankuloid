@@ -10,7 +10,7 @@ bottom_radius = 0.5
 albedo_color = Color( 1, 0, 0, 1 )
 
 [sub_resource type="SphereShape" id=3]
-radius = 0.2
+radius = 0.35
 
 [node name="BulletServer" type="KinematicBody" groups=[
 "bullets",

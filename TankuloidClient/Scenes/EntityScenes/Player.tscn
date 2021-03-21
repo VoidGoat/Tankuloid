@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Scenes/EntityScenes/Player.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/EntityScenes/TankBottomPivot.gd" type="Script" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://Audio/RELOAD_Dry_Fire_stereo.wav" type="AudioStream" id=6]
 [ext_resource path="res://Audio/RELOAD_Eject_Leaver_Action_stereo.wav" type="AudioStream" id=7]
 [ext_resource path="res://Audio/EXPLOSION_Medium_Kickback_Debris_stereo.wav" type="AudioStream" id=8]
+[ext_resource path="res://Scenes/EntityScenes/ShieldDisplay.tscn" type="PackedScene" id=9]
 
 [sub_resource type="SphereMesh" id=1]
 
@@ -71,3 +72,7 @@ volume_db = 5.0
 stream = ExtResource( 8 )
 attenuation_model = 1
 unit_size = 30.0
+
+[node name="ShieldDisplay" parent="." instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.04088, 0 )
+visible = false

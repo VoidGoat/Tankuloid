@@ -14,7 +14,7 @@ var last_world_state_time = 0
 var world_state_buffer = []
 
 # in msecs
-var interpolation_offset = 100
+var interpolation_offset = 50
 
 
 func UpdateWorldState(world_state):

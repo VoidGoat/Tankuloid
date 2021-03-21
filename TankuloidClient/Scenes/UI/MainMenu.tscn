@@ -56,7 +56,7 @@ text = "Server IP:"
 margin_top = 112.0
 margin_right = 500.0
 margin_bottom = 136.0
-text = "40.122.44.165"
+text = "127.0.0.1"
 
 [node name="NicknameLabel" type="Label" parent="Center/Container"]
 margin_top = 140.0

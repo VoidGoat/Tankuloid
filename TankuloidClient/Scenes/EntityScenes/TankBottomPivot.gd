@@ -5,6 +5,9 @@ var interp_speed = 5
 var previous_position = Vector3(0,0,0)
 var current_direction = Vector3(0,0,1)
 var movement_direction = Vector3(0,0,1)
+
+var epsilon = 0.01
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	previous_position = global_transform.origin
@@ -13,22 +16,24 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	
-	if previous_position != global_transform.origin:
+	if previous_position.distance_to(global_transform.origin) > epsilon:
 		var new_movement_direction = -(previous_position - global_transform.origin).normalized() 
 		if new_movement_direction.dot(current_direction) < 0:
 			movement_direction = -new_movement_direction
 		else:
 			movement_direction = new_movement_direction
 	
+	movement_direction = movement_direction.normalized()
+	
 	current_direction = interp_to_vec3(current_direction, movement_direction, delta, interp_speed)
 	
 	var new_basis = Basis()
-	new_basis.z = current_direction
+	new_basis.z = current_direction.normalized()
 	new_basis.y = Vector3(0, 1, 0)
 	new_basis.x = new_basis.z.cross(new_basis.y)
 
 
-	global_transform.basis = new_basis.orthonormalized()
+	global_transform.basis = new_basis
 	
 	previous_position = global_transform.origin
 	

@@ -13,6 +13,9 @@ var occupied_spawn_points = []
 const TILE_SIZE = 4
 
 func _ready():
+	
+	# Get map command line argument
+	# passed as map=path/to/map
 	var arguments = {}
 	print("command line args ", OS.get_cmdline_args())
 	for arg in OS.get_cmdline_args():

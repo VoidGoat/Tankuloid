@@ -3,6 +3,7 @@ extends KinematicBody
 
 var speed = 9.0
 var respawn_time = 3
+var invincible_time = 2
 var player_state
 
 
@@ -51,7 +52,7 @@ func Reload():
 	
 	# Play sound
 #	$ReloadSound.play()
-	print("reloaded")
+#	print("reloaded")
 
 func UpdateLookPosition():
 	var cursor_direction =  $Camera.project_ray_normal(get_viewport().get_mouse_position())
@@ -130,7 +131,7 @@ func Die():
 	timer.connect("timeout", self, "RequestRespawn")
 	self.add_child(timer)
 	
-#	$DeathSound.play()
+	$DeathSound.play()
 
 func RequestRespawn():
 	Server.RequestRespawn()
@@ -142,6 +143,10 @@ func Respawn(spawn_position):
 	global_transform.origin = spawn_position
 	
 	$PlayerCollisionShape.disabled = false
-	
 	respawn_ui.queue_free()
+	
+
+	$ShieldDisplay.Shrink(invincible_time, 1)
+
+	
 

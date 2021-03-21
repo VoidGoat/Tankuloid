@@ -1,0 +1,26 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type spatial;
+
+
+uniform vec4 dark_color : hint_color;
+uniform vec4 light_color : hint_color;
+
+varying vec3 pos;
+void vertex() {
+	pos = (WORLD_MATRIX * vec4(VERTEX, 1.0)).xyz;
+}
+
+void fragment() {
+	float size =  2.0;
+	float waves = clamp((0.5 * sin((pos.y - TIME) * 15.0) + 0.5) + 1.0 - dot(VIEW, NORMAL), 0.0, 1.0);
+	ALBEDO = mix(light_color, dark_color, waves).xyz;
+	ALPHA = mix(1, 0.1, waves) ;
+}
+"
+
+[resource]
+shader = SubResource( 1 )
+shader_param/dark_color = Color( 0, 0.0470588, 0.780392, 1 )
+shader_param/light_color = Color( 0, 0.984314, 1, 1 )

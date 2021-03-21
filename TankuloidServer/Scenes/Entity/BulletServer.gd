@@ -20,7 +20,8 @@ func _physics_process(delta):
 	var collision = move_and_collide(movement_vec)
 	if (collision):
 		if collision.collider.is_in_group("players"):
-			get_node("/root/Server").KillPlayer(collision.collider.name, owner_id)
+			if not collision.collider.invincible:
+				get_node("/root/Server").KillPlayer(collision.collider.name, owner_id)
 			get_node("/root/Server").DestroyBullet(self.name)
 			queue_free()
 		if collision.collider.is_in_group("bullets"):

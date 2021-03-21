@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Scenes/EntityScenes/PlayerTemplate.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/EntityScenes/TankBottomPivot.gd" type="Script" id=2]
 [ext_resource path="res://Meshes/TankBodyTest_2.obj" type="ArrayMesh" id=3]
 [ext_resource path="res://Meshes/TankTopTest.obj" type="ArrayMesh" id=4]
 [ext_resource path="res://Audio/EXPLOSION_Medium_Kickback_Debris_stereo.wav" type="AudioStream" id=5]
+[ext_resource path="res://Scenes/EntityScenes/ShieldDisplay.tscn" type="PackedScene" id=6]
 
 [sub_resource type="SphereShape" id=1]
 radius = 1.2
@@ -48,3 +49,7 @@ __meta__ = {
 [node name="DeathSound" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource( 5 )
 unit_size = 30.0
+
+[node name="ShieldDisplay" parent="." instance=ExtResource( 6 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+visible = false

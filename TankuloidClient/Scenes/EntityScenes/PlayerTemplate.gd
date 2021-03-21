@@ -3,6 +3,7 @@ extends KinematicBody
 
 var speed = 10.0
 var alive = true
+var invincible_time = 2
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -30,7 +31,8 @@ func RotateTurret(look_direction):
 func UpdatePlayerData(player_data):
 #	var material = $TankBottomPivot/BodyMesh.get_surface_material(0)
 	var material = SpatialMaterial.new()
-	material.albedo_color = player_data[int(self.name)]["C"]
+	if player_data.has(int(self.name)):
+		material.albedo_color = player_data[int(self.name)]["C"]
 	print("HEYOOOO")
 	$TankBottomPivot/BodyMesh.set_surface_material(0, material)
 
@@ -62,7 +64,10 @@ func Respawn(spawn_position):
 	
 	$PlayerCollisionShape.disabled = false
 	
+	$ShieldDisplay.Shrink(invincible_time, 1)
+	
 	yield(get_tree().create_timer(0.5), "timeout")
 	visible = true
+	
 	
 	

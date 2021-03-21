@@ -19,6 +19,8 @@ var connected = false
 
 var player_nickname
 
+var current_player_data
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 #	 ConnectToServer()
@@ -84,6 +86,9 @@ remote func SpawnNewPlayer(player_id, spawn_position):
 			new_player.transform.origin = spawn_position
 			new_player.name = str(player_id)
 			get_tree().root.get_node("MainScene/OtherPlayers").add_child(new_player)
+			
+			# update color
+			new_player.UpdatePlayerData(current_player_data)
 		
 remote func DespawnPlayer(player_id):
 	print("despawning!" + str(player_id))
@@ -99,6 +104,7 @@ remote func UpdatePlayerData(new_player_data):
 	get_node("/root/MainScene/Player").UpdatePlayerData(new_player_data, player_id)
 	for template in get_node("/root/MainScene/OtherPlayers").get_children():
 		template.UpdatePlayerData(new_player_data)
+	current_player_data = new_player_data
 
 func SendPlayerState(player_state):
 #	print(player_state)
@@ -129,8 +135,10 @@ var muzzle_flash_spawn = preload("res://Scenes/ParticleScenes/MuzzleFlash.tscn")
 remote func SpawnClientBullet(position, direction, speed, launch_time, id):
 	var new_bullet = bullet_spawn.instance()
 	# calculate adjusted position
-#	new_bullet.transform.origin = position + (direction * (speed * (client_clock - launch_time)/1000.0))
-	new_bullet.transform.origin = position
+	
+	var compensation_amount = max(speed * (client_clock - launch_time)/1000.0, 0)
+	new_bullet.transform.origin = position - (direction.normalized() * compensation_amount)
+#	new_bullet.transform.origin = position
 	print("launch_delta",client_clock - launch_time)
 	new_bullet.transform.basis.z = direction
 	new_bullet.transform.basis.y = Vector3(0,1,0)
