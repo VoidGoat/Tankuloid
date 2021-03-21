@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/RELOAD_Dry_Fire_stereo.wav-3f6e8f5433da1e05e23ddb3277a3a4f1.sample"
+
+[deps]
+
+source_file="res://Audio/RELOAD_Dry_Fire_stereo.wav"
+dest_files=[ "res://.import/RELOAD_Dry_Fire_stereo.wav-3f6e8f5433da1e05e23ddb3277a3a4f1.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

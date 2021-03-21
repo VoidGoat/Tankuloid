@@ -14,6 +14,8 @@ var player_data = {}
 
 var next_bullet_id = 1000
 
+var color_list = [Color(0, 1, 0), Color(0, 0, 1), Color(1, 0, 0), Color(1, 1, 0),  Color(1, 0, 1), Color(0, 1, 1)]
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	StartServer()
@@ -70,7 +72,10 @@ func _Peer_Disconnected(player_id):
 remote func ReceiveNickname(nickname):
 	# add player entry
 	var player_id = get_tree().get_rpc_sender_id()
-	player_data[player_id] = {"N": nickname, "K": 0, "D": 0}
+	var new_color =  color_list[player_data.keys().size() % color_list.size()]
+	print("New color is", new_color, " --- ", player_data.keys().size())
+	player_data[player_id] = {"N": nickname, "K": 0, "D": 0, "C": new_color}
+
 	rpc_id(0, "UpdatePlayerData", player_data)
 
 remote func ReceiveRespawnRequest():

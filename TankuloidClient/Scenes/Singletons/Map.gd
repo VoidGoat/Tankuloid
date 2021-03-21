@@ -42,6 +42,11 @@ func BuildMap(layout):
 	new_map.get_node("GridMap").set_cell_item(width, 0, -1, wall_index)
 	new_map.get_node("GridMap").set_cell_item(width, 0, height, wall_index)
 	
+	var cell_size = new_map.get_node("GridMap").cell_size
+	# Set scale
+	new_map.get_node("FloorMesh").scale = Vector3(width * cell_size.x, 1, height * cell_size.z)
+	new_map.get_node("FloorMesh").transform.origin = Vector3(width * cell_size.x, 1, height * cell_size.z) / 2.0
+	
 	for i in range(width * height):
 		if i >= data.length():
 			print("exceeded map data size")

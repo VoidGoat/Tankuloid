@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Tanks Theme (Draft 1).wav-7067ee551aac5dd8016e0ba58e93d808.sample"
+
+[deps]
+
+source_file="res://Audio/Tanks Theme (Draft 1).wav"
+dest_files=[ "res://.import/Tanks Theme (Draft 1).wav-7067ee551aac5dd8016e0ba58e93d808.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

@@ -14,6 +14,8 @@ func _ready():
 	self_destruct_timer.autostart = true
 	self_destruct_timer.connect("timeout", self, "SelfDestruct")
 	self.add_child(self_destruct_timer)
+	
+	$ShootSound.play()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):

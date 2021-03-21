@@ -93,8 +93,12 @@ remote func DespawnPlayer(player_id):
 
 # Update player data for leaderboard
 remote func UpdatePlayerData(new_player_data):
+	var player_id = get_tree().get_network_unique_id()
 	player_data = new_player_data
 	get_node("/root/MainScene/Leaderboard").UpdateLeaderboard(new_player_data)
+	get_node("/root/MainScene/Player").UpdatePlayerData(new_player_data, player_id)
+	for template in get_node("/root/MainScene/OtherPlayers").get_children():
+		template.UpdatePlayerData(new_player_data)
 
 func SendPlayerState(player_state):
 #	print(player_state)

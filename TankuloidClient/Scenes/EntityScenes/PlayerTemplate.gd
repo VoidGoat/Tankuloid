@@ -25,6 +25,16 @@ func RotateTurret(look_direction):
 	new_basis.x = new_basis.z.cross(new_basis.y)
 	$TankTopPivot.global_transform.basis = new_basis.orthonormalized()
 
+
+# Update color and such
+func UpdatePlayerData(player_data):
+#	var material = $TankBottomPivot/BodyMesh.get_surface_material(0)
+	var material = SpatialMaterial.new()
+	material.albedo_color = player_data[int(self.name)]["C"]
+	print("HEYOOOO")
+	$TankBottomPivot/BodyMesh.set_surface_material(0, material)
+
+
 var explosion_spawn = preload("res://Scenes/ParticleScenes/PlayerDeath.tscn")
 # Called when player has been killed
 func Die():
@@ -37,6 +47,8 @@ func Die():
 	var explosion = explosion_spawn.instance()
 	explosion.transform.origin = global_transform.origin
 	get_node("/root/MainScene").add_child(explosion)
+	
+	$DeathSound.play()
 	
 	
 

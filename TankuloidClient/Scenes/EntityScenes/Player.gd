@@ -35,14 +35,22 @@ func _process(delta):
 		Server.SpawnBullet(position, direction)
 		ammo -= 1
 		
-		reload_timer.start(0)
 		
+		reload_timer.start(0)
+	elif Input.is_action_just_pressed("fire_primary") and ammo <= 0:
+		$NoAmmoSound.play()
+	
+	# Lock to ground
+	transform.origin.y = 0
 
 
 	
 # called by timer
 func Reload():
 	ammo = max_ammo
+	
+	# Play sound
+#	$ReloadSound.play()
 	print("reloaded")
 
 func UpdateLookPosition():
@@ -85,6 +93,14 @@ func UpdatePlayerState():
 #	print(look_rotation)
 	player_state = {"T": OS.get_system_time_msecs(), "P": global_transform.origin, "R": look_rotation}
 	Server.SendPlayerState(player_state)
+	
+
+# Update color and such
+func UpdatePlayerData(player_data, player_id):
+	var material = $TankBottomPivot/BodyMesh.get_surface_material(0)
+	material.albedo_color = player_data[player_id]["C"]
+	$TankBottomPivot/BodyMesh.set_surface_material(0, material)
+
 
 
 var explosion_spawn = preload("res://Scenes/ParticleScenes/PlayerDeath.tscn")
@@ -113,6 +129,8 @@ func Die():
 	timer.one_shot = true
 	timer.connect("timeout", self, "RequestRespawn")
 	self.add_child(timer)
+	
+#	$DeathSound.play()
 
 func RequestRespawn():
 	Server.RequestRespawn()

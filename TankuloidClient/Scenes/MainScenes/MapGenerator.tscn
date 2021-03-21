@@ -1,6 +1,10 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Meshes/test_mesh_library.tres" type="MeshLibrary" id=1]
+[ext_resource path="res://Materials/checkerboard_mat.tres" type="Material" id=2]
+
+[sub_resource type="PlaneMesh" id=1]
+size = Vector2( 1, 1 )
 
 [node name="MapGenerator" type="Spatial"]
 
@@ -16,3 +20,7 @@ __meta__ = {
 "_editor_clip_": 0,
 "_editor_floor_": Vector3( 0, 0, 0 )
 }
+
+[node name="FloorMesh" type="MeshInstance" parent="."]
+mesh = SubResource( 1 )
+material/0 = ExtResource( 2 )

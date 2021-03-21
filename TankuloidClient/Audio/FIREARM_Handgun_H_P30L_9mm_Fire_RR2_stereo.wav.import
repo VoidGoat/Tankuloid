@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/FIREARM_Handgun_H_P30L_9mm_Fire_RR2_stereo.wav-0d9609e9d6ad31c6fbedb55d48102e56.sample"
+
+[deps]
+
+source_file="res://Audio/FIREARM_Handgun_H_P30L_9mm_Fire_RR2_stereo.wav"
+dest_files=[ "res://.import/FIREARM_Handgun_H_P30L_9mm_Fire_RR2_stereo.wav-0d9609e9d6ad31c6fbedb55d48102e56.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
