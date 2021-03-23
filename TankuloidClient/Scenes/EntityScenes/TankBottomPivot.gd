@@ -2,7 +2,7 @@ extends Spatial
 
 var interp_speed = 5
 
-var previous_position = Vector3(0,0,0)
+var previous_position = Vector3(1,0,0)
 var current_direction = Vector3(0,0,1)
 var movement_direction = Vector3(0,0,1)
 
@@ -10,8 +10,8 @@ var epsilon = 0.01
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	previous_position = global_transform.origin
-
+	#previous_position = global_transform.origin
+	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
