@@ -39,7 +39,7 @@ func UpdatePlayerData(player_data):
 
 var explosion_spawn = preload("res://Scenes/ParticleScenes/PlayerDeath.tscn")
 # Called when player has been killed
-func Die():
+func Die(killer_id):
 	if not alive:
 		return
 	alive = false

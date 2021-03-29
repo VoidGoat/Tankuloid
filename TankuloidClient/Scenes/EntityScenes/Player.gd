@@ -107,7 +107,7 @@ func UpdatePlayerData(player_data, player_id):
 var explosion_spawn = preload("res://Scenes/ParticleScenes/PlayerDeath.tscn")
 var respawn_ui_spawn = preload("res://Scenes/UI/RespawnUI.tscn")
 # Called when player has been killed
-func Die():
+func Die(killer_id):
 	if not alive:
 		return
 	
@@ -122,6 +122,7 @@ func Die():
 	
 	respawn_ui = respawn_ui_spawn.instance()
 	get_node("/root").add_child(respawn_ui)
+	respawn_ui.Init(killer_id)
 	
 	# Respawn after duration
 	var timer = Timer.new()

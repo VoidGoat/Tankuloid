@@ -159,14 +159,14 @@ remote func DestroyClientBullet(bullet_name):
 			return
 	print("Bullet not found... could be a problem")
 
-remote func KillPlayer(player_id):
+remote func KillPlayer(player_id, killer_id):
 	if get_tree().get_network_unique_id() != int(player_id):
 		for player in get_node("/root/MainScene/OtherPlayers").get_children():
 			if player.name == player_id:
-				player.Die()
+				player.Die(killer_id)
 	else:
 		var player = get_node("/root/MainScene/Player")
-		player.Die()
+		player.Die(killer_id)
 		
 
 func RequestRespawn():

@@ -153,5 +153,5 @@ func KillPlayer(player_id, killer_id):
 	
 	rpc_id(0, "UpdatePlayerData", player_data)
 	
-	rpc_id(0, "KillPlayer", player_id)
+	rpc_id(0, "KillPlayer", player_id, killer_id)
 

@@ -26,6 +26,7 @@ func _physics_process(delta):
 			queue_free()
 		if collision.collider.is_in_group("bullets"):
 			queue_free()
+			collision.collider.queue_free()
 		if bounces >= 1:
 			queue_free()
 		global_transform.basis = global_transform.basis.orthonormalized()
